@@ -72,6 +72,8 @@ include_recipe 'fqdn::build_entries_list'
 
 if provider =~ /azuredns/
   include_recipe 'azuredns::set_dns_records'
+elsif provider =~ /gcp-dns/
+  include_recipe 'gcp-dns::set_dns_records'
 else
 	include_recipe "fqdn::get_#{provider}_connection"
   include_recipe 'fqdn::set_dns_entries_'+provider

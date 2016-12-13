@@ -73,7 +73,7 @@ module Fqdn
       cloud_name = node[:workorder][:cloud][:ciName]
       provider_service = node[:workorder][:services][:dns][cloud_name][:ciClassName].split(".").last.downcase
       provider = "fog"
-      if provider_service =~ /infoblox|azuredns|designate|ddns/
+      if provider_service =~ /infoblox|azuredns|designate|ddns|gcp-dns/
         provider = provider_service
       end
       Chef::Log.debug("Provider is: #{provider}")  

@@ -16,6 +16,7 @@ service "us-west1-a",
   :source => [Chef::Config[:register], Chef::Config[:version].split(".").first].join('.'),
   :attributes => {
     :region => 'us-west1-a',
+    :project_json_key => "<replace me>",
     :imagemap => image_map,
     :repo_map => repo_map
   }

@@ -34,6 +34,8 @@ cloud_name = node[:workorder][:cloud][:ciName]
 Chef::Log.debug("Cloud name is: #{cloud_name}")
 provider = get_provider
 
+Chef::Log.debug("Provider ========== #{provider}")
+
 # check for gdns service
 gdns_service = nil
 if node[:workorder][:services].has_key?("gdns") &&
@@ -81,6 +83,8 @@ include_recipe 'fqdn::build_entries_list'
 # remove the old aliases
 if provider =~ /azuredns/
   include_recipe 'azuredns::remove_old_aliases'
+elsif provider =~ /gcp-dns/
+  include_recipe 'gcp-dns::remove_old_aliases'
 else
   include_recipe "fqdn::get_#{provider}_connection"
   include_recipe 'fqdn::remove_old_aliases_'+provider
@@ -94,6 +98,8 @@ if provider =~ /azuredns/
   if env.has_key?("global_dns") && env["global_dns"] == "true" && depends_on_lb
     include_recipe "azuretrafficmanager::add"
   end
+elsif provider =~ /gcp-dns/
+  include_recipe 'gcp-dns::set_dns_records'
 else
   include_recipe 'fqdn::set_dns_entries_'+provider
 end

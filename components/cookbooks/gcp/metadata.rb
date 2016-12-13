@@ -4,6 +4,8 @@ version          "0.1"
 maintainer       "OneOps"
 maintainer_email "support@oneops.com"
 license          "Apache License, Version 2.0"
+depends          "gcp"
+depends          "compute"
 
 grouping 'default',
   :access => "global",
@@ -30,6 +32,16 @@ attribute 'project_service_id',
     :order => 2
   }
 
+attribute 'project_json_key',
+  :description => "Google JSON Key",
+  :required => "required",
+  :default => "",
+  :format => {
+    :help => 'Google JSON Key',
+    :category => '1.Project',
+    :order => 3
+  }
+  
 attribute 'region',
   :description => "Region",
   :default => "",
@@ -62,24 +74,24 @@ attribute 'sizemap',
   :description => "Sizes Map",
   :data_type => "hash",
   :default => '{
-      "f1-micro":"f1.micro",
-      "g1-small":"g1-small",
-      "n1-standard-1":"n1-standard-1",
-      "n1-standard-2":"n1-standard-2",
-      "n1-standard-4":"n1-standard-4",
-      "n1-standard-8":"n1-standard-8",
-      "n1-standard-16":"n1-standard-16",
-      "n1-standard-32":"n1-standard-32",
-      "n1-highmem-2":"n1-highmem-2",
-      "n1-highmem-4":"n1-highmem-4",
-      "n1-highmem-8":"n1-highmem-8",
-      "n1-highmem-16":"n1-highmem-16",
-      "n1-highmem-32":"n1-highmem-32",
-      "n1-highcpu-2":"n1-highcpu-2",
-      "n1-highcpu-4":"n1-highcpu-4",
-      "n1-highcpu-8":"n1-highcpu-8",
-      "n1-highcpu-16":"n1-highcpu-16",
-      "n1-highcpu-32":"n1-highcpu-32"
+      "XS":"f1.micro",
+      "S":"g1-small",
+      "S":"n1-standard-1",
+      "M":"n1-standard-2",
+      "L":"n1-standard-4",
+      "XL":"n1-standard-8",
+      "2XL":"n1-standard-16",
+      "3XL":"n1-standard-32",
+      "M-MEM":"n1-highmem-2",
+      "L-MEM":"n1-highmem-4",
+      "XL-MEM":"n1-highmem-8",
+      "2XL-MEM":"n1-highmem-16",
+      "3XL-MEM":"n1-highmem-32",
+      "M-CPU":"n1-highcpu-2",
+      "L-CPU":"n1-highcpu-4",
+      "XL-CPU":"n1-highcpu-8",
+      "2XL-CPU":"n1-highcpu-16",
+      "3XL-CPU":"n1-highcpu-32"
     }',
   :format => {
     :help => 'Map of generic compute sizes to provider specific',
@@ -91,7 +103,7 @@ attribute 'imagemap',
   :description => "Images Map",
   :data_type => "hash",
   :default => '{"centos-6":"centos-6-v20161129",
-                "centos-7":"centos-7-v20161129",
+                "centos-7.2":"centos-7-v20161129",
                 "rhel-6":"rhel-6-v20161129",
                 "rhel-7":"rhel-7-v20161129",
                 "ubuntu-1204-precise","ubuntu-1204-precise-v20161109",
@@ -150,7 +162,7 @@ attribute 'env_vars',
 attribute 'ostype',
   :description => "OS Type",
   :required => "required",
-  :default => "centos-7",
+  :default => "centos-7.2",
   :format => {
     :help => 'OS types are mapped to the correct cloud provider OS images - see provider documentation for details',
     :category => '5.Operating System',
@@ -161,7 +173,7 @@ attribute 'ostype',
       ['Ubuntu 16.04 (xenial)','ubuntu-1604-xenial'],
       ['Ubuntu 16.10 (yakkety)','ubuntu-1610-yakkety'],
       ['CentOS 6','centos-6'],
-      ['CentOS 7','centos-7'],
+      ['CentOS 7','centos-7.2'],
       ['RedHat 6','rhel-6'],
       ['RedHat 7','rhel-7'] ] }
   }

@@ -35,6 +35,8 @@ if provider =~ /azure/
   include_recipe 'azure::add_node'
 elsif provider =~ /vsphere/
   include_recipe 'vsphere::add_node'
+elsif provider =~ /gcp/
+  include_recipe 'gcp::add_node'
 else
   include_recipe "compute::add_node_"+provider
 end
