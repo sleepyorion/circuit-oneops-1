@@ -60,6 +60,8 @@ if node.workorder.rfcCi.has_key?(:ciState) && node.workorder.rfcCi.ciState == "r
     provider = "azuredns"
   when /designate/
     provider = "designate"
+  when /gcp-dns/
+    provider = "gcp-dns"
   end
   include_recipe "fqdn::remove_ptr_"+provider
 end

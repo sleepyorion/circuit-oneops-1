@@ -96,7 +96,7 @@ server.set_disk_auto_delete(true,server.disks[0]['deviceName']);
 server = connection.servers.get(server_name,region)
 
 if !server.network_interfaces[0]['networkIP'].nil?
-  puts "***RESULT:private_ip="+server.network_interfaces[0]['networkIP']
+  puts "***RESULT:private_ip="+server.network_interfaces[0]['networkIP'] 
 end
 if !server.network_interfaces[0]['accessConfigs'][0]['natIP'].nil?
   puts "***RESULT:public_ip="+server.network_interfaces[0]['accessConfigs'][0]['natIP']
@@ -105,4 +105,5 @@ end
 puts "***RESULT:instance_id=#{server.id}"
 puts "***RESULT:server_image_name=#{source_image}"
 node.set[:ip] = server.network_interfaces[0]['accessConfigs'][0]['natIP'] || server.network_interfaces[0]['networkIP']
+puts "***RESULT:dns_record=#{node[:ip]}"
 include_recipe "compute::ssh_port_wait"
