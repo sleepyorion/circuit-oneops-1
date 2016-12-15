@@ -40,8 +40,11 @@ zones = connection.zones.all
 zone = nil
 
 unless zones.size == 0
-  zone_filter = zones.select{|zone| zone.domain.eql?(zone_name+'.')}
-  zone = zone_filter.first
+  zone = zones.find{|zone| zone.domain.eql?(zone_name+'.')}
+  if zone.nil?
+    Chef::Log.error("Could not get valid zone from nameserver")
+    exit 1
+  end
 end
 
 clean_set = []
@@ -63,7 +66,7 @@ Chef::Log.debug("DELETABLE set: #{deletable_values.inspect}")
 #
 node[:entries].each do |entry|
   dns_match = false
-  dns_name = entry[:name]
+  dns_name = entry[:name] + '.'
   dns_values = entry[:values].is_a?(String) ? Array.new([entry[:values]]) : entry[:values]
   dns_type = get_record_type(dns_name, dns_values).upcase
   existing_dns = get_existing_dns(dns_name,ns)
@@ -126,7 +129,7 @@ node[:entries].each do |entry|
   record = zone.records.get(dns_name, dns_type)
   if record.nil?
     record = zone.records.create(
-      :value => dns_values,
+      :rrdatas => dns_values,
       :name  => dns_name,
       :type  => dns_type,
       :ttl => ttl
