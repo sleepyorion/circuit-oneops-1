@@ -90,7 +90,7 @@ attribute 'flame-graph',
 	:description => "FlameGraph repo"
   :default => 'https://github.com/brendangregg/FlameGraph.git',
   :format => {
-	:help => 'Provide the Repository FlameGraph',
+	:help => 'Provide the Repository for FlameGraph',
 	:category => '3.Configure Repository',
 	:order => 2
 	}
