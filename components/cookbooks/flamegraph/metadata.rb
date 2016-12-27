@@ -78,7 +78,7 @@ attribute 'flamegraph_dir',
 	}
 
 attribute 'perf-map-agent',
-  :description => "perf-map-agent repo"
+  :description => "perf-map-agent repo",
   :default => 'https://github.com/jrudolph/perf-map-agent.git',
 	:format => {
 		:help => 'Provide the Repository for perf-map-agent',
@@ -87,7 +87,7 @@ attribute 'perf-map-agent',
 	}
 
 attribute 'flame-graph',
-	:description => "FlameGraph repo"
+	:description => "FlameGraph repo",
   :default => 'https://github.com/brendangregg/FlameGraph.git',
   :format => {
 	:help => 'Provide the Repository for FlameGraph',
