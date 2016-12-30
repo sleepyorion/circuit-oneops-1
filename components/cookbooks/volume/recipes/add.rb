@@ -546,11 +546,11 @@ ruby_block 'create-ephemeral-volume-ruby-block' do
 
     `vgdisplay #{platform_name}-eph`
     if $?.to_i == 0
-
       `lvdisplay /dev/#{platform_name}-eph/#{logical_name}`
       if $?.to_i != 0
-        # pipe yes to agree to clear filesystem signature
         execute_command("yes | lvcreate #{l_switch} #{size} -n #{logical_name} #{platform_name}-eph")
+      else
+        Chef::Log.warn("logical volume #{platform_name}-eph/#{logical_name} already exists and hence cannot recreate .. prefer replacing compute")
       end
 
     end
@@ -617,14 +617,19 @@ ruby_block 'create-storage-non-ephemeral-volume' do
     end
 
     `lvdisplay /dev/#{platform_name}/#{logical_name}`
+
     if $?.to_i != 0
-      # pipe yes to agree to clear filesystem signature
       execute_command("yes | lvcreate #{l_switch} #{size} -n #{logical_name} #{platform_name}")
+    else
+        Chef::Log.warn("logical volume #{platform_name}/#{logical_name} already exists and hence cannot recreate .. prefer replacing compute")
     end
+
     if rfc_action == "update" && storageUpdated
       execute_command("yes |lvextend #{l_switch} +#{size} /dev/#{platform_name}/#{logical_name}")
     end
+
     execute_command("vgchange -ay #{platform_name}")
+
   end
 end
 
