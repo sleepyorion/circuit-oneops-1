@@ -52,5 +52,5 @@ attribute 'program_config',
   :format => {
     :help => 'Program Config Block to control application',
     :category => '2.Application',
-    :order => 2
+    :order => 1
   }

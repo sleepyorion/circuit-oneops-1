@@ -4,7 +4,7 @@ module SupervisordHelper
 	def set_system_startup
 		cmd = Mixlib::ShellOut.new('ps u --pid 1')
 		pid = cmd.run_command
-		# cmd = shell_out!('ps u --pid 1')
+
 		if pid.stdout =~ /systemd/
 			node.set['system_startup'] = "systemd"
 		else
@@ -26,7 +26,6 @@ module SupervisordHelper
 	def install_pip
 		pip_installed = false
 		begin
-			#pip_check = shell_out!('python -c "import pip"', :returns=>[0,1]).stderr
 			pip_check = Mixlib::ShellOut.new('python -c "import pip"')
 			output = pip_check.run_command
 			if output.stderr.include? "ImportError"
@@ -65,10 +64,7 @@ module SupervisordHelper
 		begin
 			cmd = Mixlib::ShellOut.new('pip install supervisor')
 			output = cmd.run_command
-			puts "#"*100
-			puts "OUTPUT: #{output.stdout}"
-			puts "#"*100
-			puts "STDERR: #{output.stderr}"
+
 			if cmd.exitstatus != 0
 				puts "***FAULT:FATAL=Failed to install supervisor using pip"
 				e = Exception.new("no backtrace")
@@ -85,16 +81,22 @@ module SupervisordHelper
 	#
 	# Remove supervisord from system
 	def uninstall
-		cmd = Mixlib::ShellOut.new('pip uninstall -y supervisor')
-		output = cmd.run_command
-		puts "#"*100
-		puts "OUTPUT: #{output.stdout}"
-		puts "#"*100
-		puts "STDERR: #{output.stderr}"
-		if cmd.exitstatus != 0
+		begin
+			cmd = Mixlib::ShellOut.new('pip uninstall -y supervisor')
+			output = cmd.run_command
+			puts "#"*100
+			puts "OUTPUT: #{output.stdout}"
+			puts "#"*100
+			puts "STDERR: #{output.stderr}"
+			if cmd.exitstatus != 0
+				puts "***FAULT:FATAL=Failed to uninstall supervisor using pip"
+				e = Exception.new("no backtrace")
+				e.set_backtrace("")
+				raise e
+			end
+		rescue Exception => e
+			puts e.inspect
 			puts "***FAULT:FATAL=Failed to uninstall supervisor using pip"
-			e = Exception.new("no backtrace")
-			e.set_backtrace("")
 			raise e
 		end
 	end
