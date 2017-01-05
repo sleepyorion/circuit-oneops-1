@@ -27,13 +27,13 @@ group "#{node[:user][:username]}"
 username = node[:user][:username]
 
 JSON.parse(node[:user][:group]).each do |g|
-execute "Group Add" do
+execute "Adding Secondary Group" do
   command "groupadd #{g}"
   not_if "getent group #{g}"
  end
 end
 
-execute "Adding users to Secondary group" do
+execute "Adding User to Secondary Group" do
   command "usermod -G #{JSON.parse(node[:user][:group]).join(",")} #{username}"
   action :run
 end
