@@ -1,0 +1,4 @@
+[program:jenkins_server]
+command=java -jar <%="#{node['jenkins_server']['install_path']}/jenkins.war"-%> --argumentsRealm.passwd.<%=node['jenkins_server']['admin_username']-%>=<%=node['jenkins_server']['admin_password']-%> --argumentsRealm.roles.<%=node['jenkins_server']['admin_username']-%>=admin
+user=jenkins
+environment=JENKINS_HOME="<%=node['jenkins_server']['install_path']-%>",HOME="<%=node['jenkins_server']['install_path']-%>",USER="jenkins"
