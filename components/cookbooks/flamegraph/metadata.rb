@@ -77,31 +77,14 @@ attribute 'flamegraph_dir',
 		:order => 1
 	}
 
-attribute 'perf-map-agent',
-  :description => "perf-map-agent repo",
-  :default => 'https://github.com/jrudolph/perf-map-agent.git',
-	:format => {
-		:help => 'Provide the Repository for perf-map-agent',
-		:category => '3.Configure Repository',
-		:order => 1
-	}
-
-attribute 'flame-graph',
-	:description => "FlameGraph repo",
-  :default => 'https://github.com/brendangregg/FlameGraph.git',
-  :format => {
-	:help => 'Provide the Repository for FlameGraph',
-	:category => '3.Configure Repository',
-	:order => 2
-	}
 
 attribute 'app_user',
-  :description => "App User to run Commands",
+	:description => "App User to run Commands",
 	:required => 'required',
 	:default => 'app',
-  :format => {
-	:help => 'App User',
-		:category => '4.AppUser',
+	:format => {
+		:help => 'App User',
+		:category => '3.AppUser',
 		:order => 1
 	}
 

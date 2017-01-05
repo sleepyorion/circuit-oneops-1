@@ -11,7 +11,7 @@ directory "#{cache_dir}/perf-map" do
 end
 
 git "#{cache_dir}/perf-map" do
-	repository "#{node['flamegraph']['perf-map-agent']}"
+	repository 'https://github.com/jrudolph/perf-map-agent.git'
 	revision 'master'
 	action  :sync
 	user "#{node['flamegraph']['app_user']}"
@@ -45,7 +45,7 @@ directory "#{node['flamegraph']['flamegraph_dir']}" do
 end
 
 git "#{node['flamegraph']['flamegraph_dir']}" do
-	repository "#{node['flamegraph']['flame-graph']}"
+	repository 'https://github.com/brendangregg/FlameGraph.git'
 	revision 'master'
 	action  :sync
 	user "#{node['flamegraph']['app_user']}"
