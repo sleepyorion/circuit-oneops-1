@@ -147,9 +147,7 @@ ruby_block 'set flavor/image/availability_zone' do
     elsif ["BUILD","ERROR"].include?(server.state)
       msg = "vm #{server.id} is stuck in #{server.state} state"
       if defined?(server.fault)
-        if !server.fault.nil?
-          msg = "vm state: #{server.state} " + "fault message: " + server.fault["message"] + " fault code: " + server.fault["code"].to_s
-        end
+        msg = "vm state: #{server.state} " + "fault message: " + server.fault["message"] + " fault code: " + server.fault["code"].to_s if !server.fault.nil? && !fault.empty?
       end
       exit_with_error "#{msg}"
     else
