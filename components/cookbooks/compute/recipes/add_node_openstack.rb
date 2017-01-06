@@ -134,31 +134,25 @@ ruby_block 'set flavor/image/availability_zone' do
 
     if server.nil?
       # size / flavor
-
-      Chef::Log.debug("add_node_openstack SizeID: #{node.size_id}")
-
       flavor = conn.flavors.get node.size_id
       Chef::Log.info("flavor: "+flavor.inspect.gsub("\n"," ").gsub("<","").gsub(">",""))
-      if flavor.nil?
-        Chef::Log.error("cannot find flavor: #{node.size_id}")
-        exit 1
-      end
 
       # image_id
       image = conn.images.get node.image_id
       Chef::Log.info("image: "+image.inspect.gsub("\n"," ").gsub("<","").gsub(">",""))
-      if image.nil?
-        Chef::Log.error("cannot find image: #{node.image_id}")
-        exit 1
+
+      exit_with_error "Invalid compute size provided #{node.size_id} .. Please specify different Compute size." if flavor.nil?
+      exit_with_error "Invalid compute image provided #{node.image_id} .. Please specify different OS type." if image.nil?
+
+    elsif ["BUILD","ERROR"].include?(server.state)
+      msg = "vm #{server.id} is stuck in #{server.state} state"
+      if defined?(server.fault)
+        if !server.fault.nil?
+          msg = "vm state: #{server.state} " + "fault message: " + server.fault["message"] + " fault code: " + server.fault["code"].to_s
+        end
       end
+      exit_with_error "#{msg}"
     else
-      if ["BUILD","ERROR"].include?(server.state)
-        msg = "vm #{server.id} is stuck in #{server.state} state"
-        puts "***FAULT:FATAL=#{msg}"
-        e = Exception.new("no backtrace")
-        e.set_backtrace("")
-        raise e
-      end
       node.set[:existing_server] = true
     end
 
