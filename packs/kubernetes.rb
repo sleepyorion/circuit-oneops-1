@@ -228,6 +228,28 @@ resource 'etcd-master',
     }'
   }
  }
+
+resource 'volume-etcd',
+         :cookbook => 'oneops.1.volume',
+         :design => true,
+         :requires => {:constraint => '1..1', :services => 'compute'},
+         :attributes => {:mount_point => '/etcd',
+                         :size => '100%FREE',
+                         :fstype => 'xfs'
+         },
+         :monitors => {
+             :usage => {:description => 'Usage',
+                        :chart => {:min => 0, :unit => 'Percent used'},
+                        :cmd => 'check_disk_use!:::node.workorder.rfcCi.ciAttributes.mount_point:::',
+                        :cmd_line => '/opt/nagios/libexec/check_disk_use.sh $ARG1$',
+                        :metrics => {:space_used => metric(:unit => '%', :description => 'Disk Space Percent Used'),
+                                     :inode_used => metric(:unit => '%', :description => 'Disk Inode Percent Used')},
+                        :thresholds => {
+                            :LowDiskSpaceCritical => threshold('1m', 'avg', 'space_used', trigger('>=', 90, 5, 2), reset('<', 85, 5, 1)),
+                            :LowDiskInodeCritical => threshold('1m', 'avg', 'inode_used', trigger('>=', 90, 5, 2), reset('<', 85, 5, 1))
+                        }
+             }
+         }
   
 resource 'kubernetes-master',
   :cookbook => 'oneops.1.kubernetes',
@@ -1115,7 +1137,9 @@ end
 
 [ { :from => 'user-master',       :to => 'os-master' },
   { :from => 'etcd-master',       :to => 'compute-master' },
-  { :from => 'etcd-master',       :to => 'os-master' },        
+  { :from => 'etcd-master',       :to => 'os-master' },
+  { :from => 'volume-etcd',       :to => 'os-master' },
+  { :from => 'etcd-master',       :to => 'volume-etcd' },
   { :from => 'kubernetes-master', :to => 'etcd-master' },
   { :from => 'os-master',         :to => 'compute-master' },
   { :from => 'daemon-controller-manager', :to => 'kubernetes-master' },

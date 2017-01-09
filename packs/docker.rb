@@ -162,7 +162,7 @@ resource 'vol-docker',
          :design => true,
          :requires => {:constraint => '1..1', :services => 'compute'},
          :attributes => {:mount_point => '$OO_LOCAL{docker-root}',
-                         :size => '10G',
+                         :size => '80%FREE',
                          :device => '',
                          :fstype => 'xfs',
                          :options => ''
