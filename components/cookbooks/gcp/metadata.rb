@@ -4,8 +4,6 @@ version          "0.1"
 maintainer       "OneOps"
 maintainer_email "support@oneops.com"
 license          "Apache License, Version 2.0"
-depends          "gcp"
-depends          "compute"
 
 grouping 'default',
   :access => "global",

@@ -24,7 +24,7 @@ cloud_name = node[:workorder][:cloud][:ciName]
 google_project = node[:workorder][:services][:compute][cloud_name][:ciAttributes][:project]
 project_service_id = node[:workorder][:services][:compute][cloud_name][:ciAttributes][:project_service_id]
 google_json = node[:workorder][:services][:compute][cloud_name][:ciAttributes][:project_json_key]
-region = node[:workorder][:services][:compute][cloud_name][:ciAttributes][:region]
+availability_zone = node[:workorder][:services][:compute][cloud_name][:ciAttributes][:availability_zone]
 rfcCi = node.workorder.rfcCi
 
 connection = Fog::Compute::Google.new({
@@ -34,7 +34,7 @@ connection = Fog::Compute::Google.new({
 })
 
 server_name = node.server_name.downcase
-server = connection.servers.get(server_name,region)
+server = connection.servers.get(server_name,availability_zone)
 
 if server.nil?
   Chef::Log.info("Unable to find server, perhap it is already destroyed?")
@@ -44,7 +44,7 @@ else
   attempt=0
   max_attempts=6
   while !ok && attempt<max_attempts
-    server = connection.servers.get(server_name,region)
+    server = connection.servers.get(server_name,availability_zone)
     if (server.nil?) 
       ok = true
     else
@@ -64,5 +64,3 @@ else
     exit 1
   end
 end
-
-puts server.inspect

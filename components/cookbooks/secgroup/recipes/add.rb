@@ -30,6 +30,13 @@ when /ec2|openstack|aliyun/
   puts "***RESULTJSON:group_id="+JSON.generate({"value" => node.secgroup.group_id})
   puts "***RESULTJSON:group_name="+JSON.generate({"value" => node.secgroup.group_name})
 
+when /gcp/
+	include_recipe "gcp::add_secgroup"
+
+	# need to always return the attrs, updated or not
+  puts "***RESULTJSON:group_id="+JSON.generate({"value" => node.secgroup.group_id})
+  puts "***RESULTJSON:group_name="+JSON.generate({"value" => node.secgroup.group_name})
+
 else
 
   Chef::Log.info("secgroup add not implemented for provider")
