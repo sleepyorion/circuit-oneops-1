@@ -98,12 +98,7 @@ package "postgresql" do
 end
 
 case node.platform
-when "redhat","centos"
-  package "postgresql#{node.postgresql.version.split('.').join}-server"
-  package "postgresql#{node.postgresql.version.split('.').join}-contrib"
-  package "postgresql#{node.postgresql.version.split('.').join}-devel"
-  package "postgresql#{node.postgresql.version.split('.').join}-libs"
-when "fedora","suse"
+when "fedora","suse","redhat","centos"
   package "postgresql-server"
   package "postgresql-contrib"
   package "postgresql-devel"
@@ -112,15 +107,8 @@ end
 
 # only stop the inital start by yum install/add
 if node.workorder.rfcCi.rfcAction == "add"
-  if node.postgresql.version.to_f >= 9
-    service "postgresql-#{node.postgresql.version}" do
-      supports :restart => true, :status => true, :reload => true
-      action [:enable, :stop]
-    end
-  else
-    service "postgresql" do
-      supports :restart => true, :status => true, :reload => true
-      action [:enable, :stop]
-    end  
-  end
+  service "postgresql" do
+    supports :restart => true, :status => true, :reload => true
+    action [:enable, :stop]
+  end  
 end
