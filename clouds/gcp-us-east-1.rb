@@ -1,5 +1,5 @@
-name "gcp-us-west-1"
-description "Google Cloud Platform - US West Region (The Dalles, Oregon)"
+name "gcp-us-east-1"
+description "Google Cloud Platform - US Eastern Region (Berkeley County,South Carolina)"
 auth "gcpsecretkey"
 
 image_map = '{
@@ -20,13 +20,13 @@ repo_map = '{
   "centos-7.2":"sudo yum clean all; sudo yum -d0 -e0 -y install rsync yum-utils; sudo yum -d0 -e0 -y install epel-release; sudo yum -d0 -e0 -y install gcc-c++"
 }'
 
-service "gcp-us-west-1",
+service "gcp-us-east-1",
 	:cookbook => 'gcp',
 	:provides => { :service => 'compute'},
 	:source => [Chef::Config[:register], Chef::Config[:version].split(".").first].join('.'),
 	:attributes => {
-		:region => 'us-west-1',
-		:availability_zones => "[\"us-west1-a\",\"us-west1-b\"]",
+		:region => 'gcp-us-east-1',
+		:availability_zones => "[\"us-east1-b\",\"us-east1-c\",\"us-east1-d\"]",
 		:imagemap => image_map,
 		:repo_map => repo_map
 	}
