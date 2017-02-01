@@ -93,7 +93,7 @@ attribute 'sudoer',
       :category => '2.Options',
       :order => 3
     }
-    
+
 attribute 'authorized_keys',
   :description => "Authorized Keys",
   :data_type => 'array',

@@ -30,9 +30,9 @@ attribute 'http_username',
 		  :required    => 'required',
 		  :default     => 'admin',
 		  :format      => {
-		  	:help      => 'Username of HTTP Server',
-		  	:category  => '1.Server',
-		  	:order     => 2
+			:help      => 'Username of HTTP Server',
+			:category  => '1.Server',
+			:order     => 2
 		  }
 
 attribute 'http_password',
@@ -41,9 +41,9 @@ attribute 'http_password',
 		  :default     => 'admin',
 		  :required    => 'required',
 		  :format      => {
-		  	:help      => 'Username of HTTP Server',
-		  	:category  => '1.Server',
-		  	:order     => 3
+			:help      => 'Username of HTTP Server',
+			:category  => '1.Server',
+			:order     => 3
 		  }
 
 attribute 'program_config',

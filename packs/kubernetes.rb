@@ -228,7 +228,7 @@ resource 'etcd-master',
     }'
   }
  }
- 
+
 resource 'volume-etcd',
          :cookbook => 'oneops.1.volume',
          :design => true,

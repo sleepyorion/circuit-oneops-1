@@ -311,6 +311,12 @@ ruby_block 'create server' do
 
       end
 
+      # give openstack a min
+      sleep 60
+
+      # wait for server to be ready checking every 30 sec
+      server.wait_for( Fog.timeout, 20 ) { server.ready? }
+
       end_time = Time.now.to_i
       duration = end_time - start_time
       Chef::Log.info("server ready in: #{duration}s")

@@ -1,7 +1,7 @@
 # Un-install Supervisord
 ::Chef::Recipe.send(:include, SupervisordHelper)
 
-# Stop service 
+# Stop service
 service 'supervisord' do
 	action [ :stop ]
 end

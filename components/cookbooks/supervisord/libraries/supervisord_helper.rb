@@ -56,7 +56,7 @@ module SupervisordHelper
 	# e.g. easy_install supervisor
 	# this can be substitute with any valid commands,
 	# scripts, or system packing
-	# 
+	#
 	# Make sure pip is installed before proceed to
 	# install supervisord
 	def install
@@ -78,7 +78,7 @@ module SupervisordHelper
 		end
 	end
 
-	# 
+	#
 	# Remove supervisord from system
 	def uninstall
 		begin
