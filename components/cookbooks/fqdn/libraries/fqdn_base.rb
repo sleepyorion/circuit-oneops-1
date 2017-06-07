@@ -152,6 +152,10 @@ module Fqdn
         
     
     def verify(dns_name, dns_values, ns, max_retry_count=30)
+      if dns_values.count > max_retry_count
+        max_retry_count = dns_values.count + 1
+      end
+
       retry_count = 0
       dns_type = get_record_type(dns_name, dns_values)
   
