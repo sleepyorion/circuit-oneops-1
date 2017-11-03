@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
 ruby "=2.0.0"
 
@@ -12,3 +12,4 @@ gem 'buff-extensions', '=1.0.0'
 gem 'nio4r', '=1.2.1'
 gem 'ridley', '=4.6.1'
 gem 'kitchen-vagrant', '=1.1.0'
+gem 'busser', '=0.7.1'

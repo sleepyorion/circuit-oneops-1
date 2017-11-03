@@ -73,7 +73,6 @@ module Kitchen
   module Verifier
     class Busser < Kitchen::Verifier::Base
       def run_command
-debug("********* PHAT **********")
         return if local_suite_files.empty?
 
         if config[:transport] && config[:transport].eql?("local")
