@@ -149,7 +149,6 @@ module Kitchen
           sh.run_command
           sh.stdout
           sh.error!
-          require "pry"; binding.pry
         else
           instance.transport.connection(backcompat_merged_state(state)) do |conn|
             conn.execute(env_cmd(verifier.init_command))
