@@ -190,6 +190,7 @@ if storage.nil?
   Chef::Log.info("no DependsOn Storage.")
   return
 else
+  include_recipe "volume::install-openstack-gem"
   include_recipe "shared::set_provider_new"
   objStorage = VolumeComponent::Storage.new(node,storage,device_maps)
   objStorage.set_provider_data_all

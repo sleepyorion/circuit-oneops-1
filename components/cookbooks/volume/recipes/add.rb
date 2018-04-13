@@ -71,6 +71,8 @@ storageUpdated = false
 if !storage.nil?
   storageUpdated = storage.ciBaseAttributes.has_key?("size")
 end
+
+include_recipe "volume::install-openstack-gem"
 include_recipe "shared::set_provider_new"
 
 dev_list      = ""
