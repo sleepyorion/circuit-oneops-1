@@ -75,8 +75,15 @@ if provider_service.eql?("infoblox")
 
       res_delete = delete_record(record["_ref"])
 
-      Chef::Log.warn("Failed to remove record #{record["_ref"]}") if res_delete != 200
-      Chef::Log.info("Sucessfully remove record #{record["_ref"]}") if res_delete == 200
+      delete_status = (res_delete == 200) ? "success" : "failure"
+
+      if delete_status.eql?("success")
+        Chef::Log.info("Sucessfully remove record #{record["_ref"]}")
+      else
+        Chef::Log.warn("Failed to remove record #{record["_ref"]}")
+      end
+
+      puts "***TAG:compute_dns_delete=#{delete_status},#{record_value},#{delete_vm_ip},#{record["_ref"]}"
     end
   end
 end
