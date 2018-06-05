@@ -32,7 +32,7 @@ else
 end
 
 def get_records(record_type,ipaddress)
-  return node.infoblox_conn.request(:method => :get, :path => "/wapi/v1.1/record:#{record_type}?ipv4addr=#{ipaddress}")
+  return node.infoblox_conn.request(:method => :get, :path => "/wapi/v1.0/record:#{record_type}?ipv4addr=#{ipaddress}")
 end
 
 def delete_record(record_ref)
@@ -45,7 +45,7 @@ cloud_name = node[:workorder][:cloud][:ciName]
 provider_service = node[:workorder][:services][:dns][cloud_name][:ciClassName].split(".").last.downcase
 
 # Support only infoblox cleanup
-unless !provider_service.eql?("infoblox")
+if provider_service.eql?("infoblox")
   include_recipe "fqdn::get_infoblox_connection"
 
   ["ptr","a"].each do |dns_type|
